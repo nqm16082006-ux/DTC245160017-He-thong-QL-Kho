@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+Nhập xuất kho
+</title>
+
+<link
+    rel="stylesheet"
+    href="/css/style.css"
+>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>
+Nhập / Xuất Kho
+</h1>
+
+<nav>
+
+<a href="/">
+Dashboard
+</a>
+
+<a href="/products">
+Sản phẩm
+</a>
+
+<a href="/suppliers">
+Nhà cung cấp
+</a>
+
+<a href="/inventory">
+Nhập / Xuất kho
+</a>
+
+</nav>
+
+</header>
+
+
+<main>
+
+
+<% if (message) { %>
+
+<div class="success">
+<%= message %>
+</div>
+
+<% } %>
+
+
+<% if (error) { %>
+
+<div class="error">
+<%= error %>
+</div>
+
+<% } %>
+
+
+<div class="inventory-grid">
+
+
+<div>
+
+<h2>
+Nhập kho
+</h2>
+
+<form
+    action="/inventory/import"
+    method="POST"
+>
+
+<select
+    name="product_id"
+    required
+>
+
+<option value="">
+Chọn sản phẩm
+</option>
+
+<% products.forEach(product => { %>
+
+<option value="<%= product.id %>">
+
+<%= product.name %>
+
+-
+
+Tồn:
+<%= product.quantity %>
+
+</option>
+
+<% }) %>
+
+</select>
+
+
+<input
+    type="number"
+    name="quantity"
+    min="1"
+    placeholder="Số lượng nhập"
+    required
+>
+
+
+<input
+    name="note"
+    placeholder="Ghi chú"
+>
+
+
+<button type="submit">
+
+Nhập kho
+
+</button>
+
+</form>
+
+</div>
+
+
+<div>
+
+<h2>
+Xuất kho
+</h2>
+
+
+<form
+    action="/inventory/export"
+    method="POST"
+>
+
+<select
+    name="product_id"
+    required
+>
+
+<option value="">
+Chọn sản phẩm
+</option>
+
+
+<% products.forEach(product => { %>
+
+<option value="<%= product.id %>">
+
+<%= product.name %>
+
+-
+
+Tồn:
+<%= product.quantity %>
+
+</option>
+
+<% }) %>
+
+</select>
+
+
+<input
+    type="number"
+    name="quantity"
+    min="1"
+    placeholder="Số lượng xuất"
+    required
+>
+
+
+<input
+    name="note"
+    placeholder="Ghi chú"
+>
+
+
+<button
+    class="warning"
+    type="submit"
+>
+
+Xuất kho
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+
+<h2>
+Lịch sử nhập / xuất
+</h2>
+
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Sản phẩm</th>
+<th>SKU</th>
+<th>Loại</th>
+<th>Số lượng</th>
+<th>Ghi chú</th>
+<th>Thời gian</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+<% transactions.forEach(t => { %>
+
+<tr>
+
+<td>
+<%= t.id %>
+</td>
+
+<td>
+<%= t.product_name %>
+</td>
+
+<td>
+<%= t.sku %>
+</td>
+
+<td>
+<%= t.transaction_type %>
+</td>
+
+<td>
+<%= t.quantity %>
+</td>
+
+<td>
+<%= t.note || "" %>
+</td>
+
+<td>
+<%= t.created_at %>
+</td>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+
+</table>
+
+</main>
+
+</body>
+
+</html>

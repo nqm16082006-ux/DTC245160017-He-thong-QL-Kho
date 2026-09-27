@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+    Nhà cung cấp
+</title>
+
+<link
+    rel="stylesheet"
+    href="/css/style.css"
+>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>
+    Quản lý Nhà cung cấp
+</h1>
+
+<nav>
+
+<a href="/">
+Dashboard
+</a>
+
+<a href="/products">
+Sản phẩm
+</a>
+
+<a href="/suppliers">
+Nhà cung cấp
+</a>
+
+<a href="/inventory">
+Nhập / Xuất kho
+</a>
+
+</nav>
+
+</header>
+
+
+<main>
+
+<h2>Thêm nhà cung cấp</h2>
+
+
+<form
+    action="/suppliers/add"
+    method="POST"
+>
+
+<input
+    name="name"
+    placeholder="Tên nhà cung cấp"
+    required
+>
+
+<input
+    name="phone"
+    placeholder="Số điện thoại"
+>
+
+<input
+    name="email"
+    type="email"
+    placeholder="Email"
+>
+
+<input
+    name="address"
+    placeholder="Địa chỉ"
+>
+
+<button type="submit">
+    Thêm
+</button>
+
+</form>
+
+
+<h2>
+    Danh sách nhà cung cấp
+</h2>
+
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Tên</th>
+<th>Điện thoại</th>
+<th>Email</th>
+<th>Địa chỉ</th>
+<th>Thao tác</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+<% suppliers.forEach(supplier => { %>
+
+<tr>
+
+<td>
+<%= supplier.id %>
+</td>
+
+<td>
+<%= supplier.name %>
+</td>
+
+<td>
+<%= supplier.phone || "" %>
+</td>
+
+<td>
+<%= supplier.email || "" %>
+</td>
+
+<td>
+<%= supplier.address || "" %>
+</td>
+
+<td>
+
+<form
+    action="/suppliers/delete/<%= supplier.id %>"
+    method="POST"
+>
+
+<button
+    class="danger"
+    type="submit"
+>
+    Xóa
+</button>
+
+</form>
+
+</td>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+
+</table>
+
+</main>
+
+</body>
+
+</html>

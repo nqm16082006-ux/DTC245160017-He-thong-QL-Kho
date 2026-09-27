@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Inventory Management
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>
+        Hệ thống Quản lý Kho hàng
+    </h1>
+
+    <nav>
+
+        <a href="/">
+            Dashboard
+        </a>
+
+        <a href="/products">
+            Sản phẩm
+        </a>
+
+        <a href="/suppliers">
+            Nhà cung cấp
+        </a>
+
+        <a href="/inventory">
+            Nhập / Xuất kho
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main>
+
+    <h2>Dashboard</h2>
+
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>Sản phẩm</h3>
+
+            <p>
+                <%= productCount %>
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Nhà cung cấp
+            </h3>
+
+            <p>
+                <%= supplierCount %>
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Tổng tồn kho
+            </h3>
+
+            <p>
+                <%= stock %>
+            </p>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+
+</html>
