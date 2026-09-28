@@ -1,0 +1,37 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+
+scrape_configs:
+
+  # Prometheus tự giám sát chính nó
+  - job_name: "prometheus"
+
+    static_configs:
+      - targets:
+          - "prometheus:9090"
+
+
+  # Giám sát Docker containers
+  - job_name: "cadvisor"
+
+    static_configs:
+      - targets:
+          - "cadvisor:8080"
+
+
+  # Giám sát Nginx
+  - job_name: "nginx"
+
+    static_configs:
+      - targets:
+          - "nginx-exporter:9113"
+
+
+  # Giám sát MySQL
+  - job_name: "mysql"
+
+    static_configs:
+      - targets:
+          - "mysql-exporter:9104"
