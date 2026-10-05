@@ -1,4 +1,3 @@
-
 services:
 
   mysql:
@@ -247,10 +246,10 @@ services:
 
     depends_on:
       - prometheus
-      - loki
+      - 
 
     networks:
-      - monitoring
+      - lokimonitoring
 
 
   loki:
@@ -307,7 +306,6 @@ volumes:
   loki_data:
 
   promtail_positions:
-
 
 networks:
 

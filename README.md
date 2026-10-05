@@ -1,8 +1,12 @@
+
 HỆ THỐNG QUẢN LÝ KHO HÀNG (INVENTORY MANAGEMENT SYSTEM)
 
 Môn học: Triển khai và Quản trị Hệ thống Phần mềm
+
 Sinh viên: NGÔ QUANG MINH
+
 Mã sinh viên: DTC245160017
+
 Lớp: KHMT K23A
 
 1. Giới thiệu
@@ -68,17 +72,30 @@ Toàn bộ ứng dụng và các dịch vụ liên quan được triển khai b�
 
 
         MONITORING                          CENTRALIZED LOGGING
+
 +--------------------------+              +----------------------+
 | cAdvisor                 |              | Docker/App/Nginx log |
 | Nginx Exporter           |              +----------+-----------+
-| MySQL Exporter           |                         |
-+------------+-------------+                         v
-             |                                    Promtail
+| MySQL Exporter           |                         
++------------+-------------+                         |
+
+             |                                       |
+         
+             |                                       v  
+
+             |
+                                                 Promtail
+             v
+                                                     |
+        Prometheus
+                                                     v
+             |   
+                                                   Loki
+             |
+
              v                                       |
-        Prometheus                                   v
-             |                                      Loki
-             v                                       |
-          Grafana <----------------------------------+
+ 
+         Grafana <----------------------------------+
 
 Luồng hoạt động
 
@@ -541,19 +558,17 @@ Explore -> Loki
 
 Một số truy vấn LogQL sử dụng để demo:
 
-Query 1 - Xem log ứng dụng
-
-{container="inventory_app"}
-
-Query 2 - Tìm lỗi trong ứng dụng
-
-{container="inventory_app"} |= "error"
-
-Query 3 - Xem log Nginx
+Query 1 - Xem Log Nginx
 
 {container="inventory_nginx"}
 
-Tên label thực tế cần khớp với cấu hình Promtail/Loki của hệ thống.
+Query 2 - Xem log ứng dụng
+
+{container="inventory_app"}
+
+Query 3 - Lọc GET requests
+
+{container="inventory_nginx"} |= "GET"
 
 18. Hardening hệ thống
 
