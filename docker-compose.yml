@@ -44,6 +44,7 @@ services:
     restart: unless-stopped
 
     environment:
+      NODE_ENV: production
       PORT: 3000
 
       DB_HOST: mysql
@@ -64,6 +65,18 @@ services:
       - frontend
       - backend
 
+    read_only: true
+
+    tmpfs:
+      - /tmp:size=64m,noexec,nosuid
+
+    cap_drop:
+      - ALL
+
+    security_opt:
+      - no-new-privileges:true
+
+    pids_limit: 100
 
   phpmyadmin:
     image: phpmyadmin:latest
