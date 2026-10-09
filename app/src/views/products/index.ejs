@@ -2,194 +2,546 @@
 <html lang="vi">
 
 <head>
+    <meta charset="UTF-8">
 
-<meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>
-Sản phẩm
-</title>
+    <title>Quản lý sản phẩm</title>
 
-<link
-    rel="stylesheet"
-    href="/css/style.css"
->
-
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
 </head>
+
 
 <body>
 
 <header>
 
-<h1>
-Quản lý Sản phẩm
-</h1>
+    <h1>Quản lý Sản phẩm</h1>
 
-<nav>
-
-<a href="/">
-Dashboard
-</a>
-
-<a href="/products">
-Sản phẩm
-</a>
-
-<a href="/suppliers">
-Nhà cung cấp
-</a>
-
-<a href="/inventory">
-Nhập / Xuất kho
-</a>
-
-</nav>
+    <nav>
+        <a href="/">Dashboard</a>
+        <a href="/products">Sản phẩm</a>
+        <a href="/suppliers">Nhà cung cấp</a>
+        <a href="/inventory">Nhập / Xuất kho</a>
+    </nav>
 
 </header>
 
 
 <main>
 
-<h2>Thêm sản phẩm</h2>
+    <!-- ========================= -->
+    <!-- THÊM SẢN PHẨM -->
+    <!-- ========================= -->
+
+    <h2>Thêm sản phẩm</h2>
+
+    <form
+        action="/products/add"
+        method="POST"
+    >
+
+        <input
+            name="name"
+            placeholder="Tên sản phẩm"
+            required
+        >
+
+        <input
+            name="sku"
+            placeholder="Mã SKU"
+            required
+        >
+
+        <input
+            name="price"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="Giá"
+            required
+        >
 
 
-<form
-    action="/products/add"
-    method="POST"
->
+        <select name="supplier_id">
 
-<input
-    name="name"
-    placeholder="Tên sản phẩm"
-    required
->
-
-<input
-    name="sku"
-    placeholder="Mã SKU"
-    required
->
-
-<input
-    name="price"
-    type="number"
-    min="0"
-    step="0.01"
-    placeholder="Giá"
-    required
->
+            <option value="">
+                -- Nhà cung cấp --
+            </option>
 
 
-<select
-    name="supplier_id"
->
+            <% suppliers.forEach(supplier => { %>
 
-<option value="">
--- Nhà cung cấp --
-</option>
+                <option value="<%= supplier.id %>">
+                    <%= supplier.name %>
+                </option>
 
-<% suppliers.forEach(supplier => { %>
+            <% }) %>
 
-<option
-    value="<%= supplier.id %>"
->
-    <%= supplier.name %>
-</option>
-
-<% }) %>
-
-</select>
+        </select>
 
 
-<button type="submit">
-Thêm sản phẩm
-</button>
+        <button type="submit">
+            Thêm sản phẩm
+        </button>
 
-</form>
-
-
-<h2>
-Danh sách sản phẩm
-</h2>
+    </form>
 
 
-<table>
-
-<thead>
-
-<tr>
-
-<th>ID</th>
-<th>SKU</th>
-<th>Tên</th>
-<th>Giá</th>
-<th>Tồn kho</th>
-<th>Nhà cung cấp</th>
-<th>Thao tác</th>
-
-</tr>
-
-</thead>
+    <hr>
 
 
-<tbody>
+    <!-- ========================= -->
+    <!-- SEARCH / FILTER / SORT -->
+    <!-- ========================= -->
 
-<% products.forEach(product => { %>
+    <h2>Tìm kiếm / Lọc / Sắp xếp</h2>
 
-<tr>
 
-<td>
-<%= product.id %>
-</td>
+    <form
+        id="productFilterForm"
+        action="/products"
+        method="GET"
+        class="filter-form"
+    >
 
-<td>
-<%= product.sku %>
-</td>
+        <input
+            id="productSearch"
+            name="search"
+            placeholder="Tìm theo tên hoặc SKU..."
+            value="<%= filters.search %>"
+            autocomplete="off"
+        >
 
-<td>
-<%= product.name %>
-</td>
 
-<td>
-<%= Number(product.price).toLocaleString("vi-VN") %>
-</td>
+        <select
+            name="supplier"
+            class="auto-submit-filter"
+        >
 
-<td>
-<strong>
-<%= product.quantity %>
-</strong>
-</td>
+            <option value="">
+                Tất cả nhà cung cấp
+            </option>
 
-<td>
-<%= product.supplier_name || "Chưa có" %>
-</td>
 
-<td>
+            <% suppliers.forEach(supplier => { %>
 
-<form
-    action="/products/delete/<%= product.id %>"
-    method="POST"
->
+                <option
+                    value="<%= supplier.id %>"
 
-<button
-    class="danger"
-    type="submit"
->
-Xóa
-</button>
+                    <%= String(filters.supplier) ===
+                        String(supplier.id)
+                        ? "selected"
+                        : "" %>
+                >
+                    <%= supplier.name %>
+                </option>
 
-</form>
+            <% }) %>
 
-</td>
+        </select>
 
-</tr>
 
-<% }) %>
+        <select
+            name="stock"
+            class="auto-submit-filter"
+        >
 
-</tbody>
+            <option value="">
+                Tất cả trạng thái
+            </option>
 
-</table>
+
+            <option
+                value="out"
+
+                <%= filters.stock === "out"
+                    ? "selected"
+                    : "" %>
+            >
+                Hết hàng
+            </option>
+
+
+            <option
+                value="low"
+
+                <%= filters.stock === "low"
+                    ? "selected"
+                    : "" %>
+            >
+                Sắp hết
+            </option>
+
+
+            <option
+                value="available"
+
+                <%= filters.stock === "available"
+                    ? "selected"
+                    : "" %>
+            >
+                Còn hàng
+            </option>
+
+        </select>
+
+
+        <select
+            name="sort"
+            class="auto-submit-filter"
+        >
+
+            <option
+                value="newest"
+
+                <%= filters.sort === "newest"
+                    ? "selected"
+                    : "" %>
+            >
+                Mới nhất
+            </option>
+
+
+            <option
+                value="name"
+
+                <%= filters.sort === "name"
+                    ? "selected"
+                    : "" %>
+            >
+                Tên sản phẩm
+            </option>
+
+
+            <option
+                value="price"
+
+                <%= filters.sort === "price"
+                    ? "selected"
+                    : "" %>
+            >
+                Giá
+            </option>
+
+
+            <option
+                value="quantity"
+
+                <%= filters.sort === "quantity"
+                    ? "selected"
+                    : "" %>
+            >
+                Tồn kho
+            </option>
+
+
+            <option
+                value="sku"
+
+                <%= filters.sort === "sku"
+                    ? "selected"
+                    : "" %>
+            >
+                SKU
+            </option>
+
+        </select>
+
+
+        <select
+            name="order"
+            class="auto-submit-filter"
+        >
+
+            <option
+                value="asc"
+
+                <%= filters.order === "asc"
+                    ? "selected"
+                    : "" %>
+            >
+                Tăng dần
+            </option>
+
+
+            <option
+                value="desc"
+
+                <%= filters.order === "desc"
+                    ? "selected"
+                    : "" %>
+            >
+                Giảm dần
+            </option>
+
+        </select>
+
+
+        <!-- Không còn nút Áp dụng -->
+
+
+        <a
+            href="/products"
+            class="reset-filter"
+        >
+            Đặt lại
+        </a>
+
+    </form>
+
+
+    <p>
+        Tìm thấy:
+        <strong>
+            <%= pagination.totalItems %>
+        </strong>
+        sản phẩm
+    </p>
+
+
+    <!-- ========================= -->
+    <!-- DANH SÁCH SẢN PHẨM -->
+    <!-- ========================= -->
+
+    <h2>Danh sách sản phẩm</h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>SKU</th>
+                    <th>Tên</th>
+                    <th>Giá</th>
+                    <th>Tồn kho</th>
+                    <th>Trạng thái</th>
+                    <th>Nhà cung cấp</th>
+                    <th>Thao tác</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                <% if (products.length === 0) { %>
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            class="empty-row"
+                        >
+                            Không tìm thấy sản phẩm phù hợp.
+                        </td>
+
+                    </tr>
+
+                <% } %>
+
+
+                <% products.forEach(product => { %>
+
+                    <tr>
+
+                        <td>
+                            <%= product.id %>
+                        </td>
+
+
+                        <td>
+                            <%= product.sku %>
+                        </td>
+
+
+                        <td>
+                            <%= product.name %>
+                        </td>
+
+
+                        <td>
+                            <%= Number(product.price)
+                                .toLocaleString("vi-VN") %>
+                            VNĐ
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                <%= product.quantity %>
+                            </strong>
+
+                        </td>
+
+
+                        <!-- ========================= -->
+                        <!-- TRẠNG THÁI -->
+                        <!-- ========================= -->
+
+                        <td>
+
+                            <% if (product.quantity === 0) { %>
+
+                                <span
+                                    class="status-badge status-out"
+                                >
+                                    Hết hàng
+                                </span>
+
+
+                            <% } else if (product.quantity <= 10) { %>
+
+                                <span
+                                    class="status-badge status-low"
+                                >
+                                    Sắp hết
+                                </span>
+
+
+                            <% } else { %>
+
+                                <span
+                                    class="status-badge status-available"
+                                >
+                                    Còn hàng
+                                </span>
+
+                            <% } %>
+
+                        </td>
+
+
+                        <td>
+                            <%= product.supplier_name || "Chưa có" %>
+                        </td>
+
+
+                        <td class="action-cell">
+
+                            <a
+                                href="/products/<%= product.id %>"
+                                class="action-link view-link"
+                            >
+                                Xem
+                            </a>
+
+
+                            <a
+                                href="/products/<%= product.id %>/edit"
+                                class="action-link edit-link"
+                            >
+                                Sửa
+                            </a>
+
+
+                            <form
+                                action="/products/delete/<%= product.id %>"
+                                method="POST"
+                                class="inline-form"
+                                onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');"
+                            >
+
+                                <button
+                                    class="danger"
+                                    type="submit"
+                                >
+                                    Xóa
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                <% }) %>
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- PHÂN TRANG -->
+    <!-- ========================= -->
+
+    <%
+        const queryBase =
+            `search=${encodeURIComponent(filters.search)}`
+            + `&supplier=${encodeURIComponent(filters.supplier)}`
+            + `&stock=${encodeURIComponent(filters.stock)}`
+            + `&sort=${encodeURIComponent(filters.sort)}`
+            + `&order=${encodeURIComponent(filters.order)}`;
+    %>
+
+
+    <div class="pagination">
+
+        <% if (pagination.page > 1) { %>
+
+            <a
+                href="/products?page=<%= pagination.page - 1 %>&<%= queryBase %>"
+            >
+                ← Trước
+            </a>
+
+        <% } %>
+
+
+        <span>
+
+            Trang
+
+            <strong>
+                <%= pagination.page %>
+            </strong>
+
+            /
+
+            <strong>
+                <%= pagination.totalPages %>
+            </strong>
+
+        </span>
+
+
+        <% if (
+            pagination.page <
+            pagination.totalPages
+        ) { %>
+
+            <a
+                href="/products?page=<%= pagination.page + 1 %>&<%= queryBase %>"
+            >
+                Sau →
+            </a>
+
+        <% } %>
+
+    </div>
 
 </main>
+
+<script
+    src="/js/filters.js"
+    defer
+></script>
 
 </body>
 

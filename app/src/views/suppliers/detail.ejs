@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Chi tiết nhà cung cấp</title>
+
+<link
+    rel="stylesheet"
+    href="/css/style.css"
+>
+
+</head>
+
+
+<body>
+
+<header>
+
+<h1>Chi tiết Nhà cung cấp</h1>
+
+<nav>
+
+<a href="/">Dashboard</a>
+<a href="/products">Sản phẩm</a>
+<a href="/suppliers">Nhà cung cấp</a>
+<a href="/inventory">Nhập / Xuất kho</a>
+
+</nav>
+
+</header>
+
+
+<main>
+
+<h2>
+<%= supplier.name %>
+</h2>
+
+
+<table>
+
+<tr>
+
+<th>ID</th>
+
+<td>
+<%= supplier.id %>
+</td>
+
+</tr>
+
+
+<tr>
+
+<th>Tên</th>
+
+<td>
+<%= supplier.name %>
+</td>
+
+</tr>
+
+
+<tr>
+
+<th>Điện thoại</th>
+
+<td>
+<%= supplier.phone || "-" %>
+</td>
+
+</tr>
+
+
+<tr>
+
+<th>Email</th>
+
+<td>
+<%= supplier.email || "-" %>
+</td>
+
+</tr>
+
+
+<tr>
+
+<th>Địa chỉ</th>
+
+<td>
+<%= supplier.address || "-" %>
+</td>
+
+</tr>
+
+</table>
+
+
+<br>
+
+
+<a
+    href="/suppliers/<%= supplier.id %>/edit"
+>
+Sửa nhà cung cấp
+</a>
+
+<a href="/suppliers">
+Quay lại
+</a>
+
+
+<h2>
+Sản phẩm của nhà cung cấp
+</h2>
+
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>SKU</th>
+<th>Tên</th>
+<th>Giá</th>
+<th>Tồn kho</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+
+<% if (products.length === 0) { %>
+
+<tr>
+
+<td colspan="4">
+Nhà cung cấp chưa có sản phẩm.
+</td>
+
+</tr>
+
+<% } %>
+
+
+<% products.forEach(product => { %>
+
+<tr>
+
+<td>
+<%= product.sku %>
+</td>
+
+<td>
+
+<a href="/products/<%= product.id %>">
+
+<%= product.name %>
+
+</a>
+
+</td>
+
+<td>
+
+<%= Number(product.price)
+    .toLocaleString("vi-VN") %>
+
+</td>
+
+<td>
+<%= product.quantity %>
+</td>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+
+</table>
+
+
+</main>
+
+</body>
+
+</html>

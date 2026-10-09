@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Chi tiết sản phẩm</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+<header>
+
+    <h1>Chi tiết sản phẩm</h1>
+
+    <nav>
+        <a href="/">Dashboard</a>
+        <a href="/products">Sản phẩm</a>
+        <a href="/suppliers">Nhà cung cấp</a>
+        <a href="/inventory">Nhập / Xuất kho</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <h2>
+        <%= product.name %>
+    </h2>
+
+
+    <!-- ========================= -->
+    <!-- THÔNG TIN SẢN PHẨM -->
+    <!-- ========================= -->
+
+    <table class="detail-table">
+
+        <tbody>
+
+            <tr>
+
+                <th>ID</th>
+
+                <td>
+                    <%= product.id %>
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>SKU</th>
+
+                <td>
+                    <%= product.sku %>
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>Tên sản phẩm</th>
+
+                <td>
+                    <%= product.name %>
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>Giá</th>
+
+                <td>
+
+                    <%= Number(product.price)
+                        .toLocaleString("vi-VN") %>
+                    VNĐ
+
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>Tồn kho</th>
+
+                <td>
+
+                    <strong>
+                        <%= product.quantity %>
+                    </strong>
+
+                </td>
+
+            </tr>
+
+
+            <!-- ========================= -->
+            <!-- TRẠNG THÁI TỒN KHO -->
+            <!-- ========================= -->
+
+            <tr>
+
+                <th>Trạng thái</th>
+
+                <td>
+
+                    <% if (product.quantity === 0) { %>
+
+                        <span
+                            class="status-badge status-out"
+                        >
+                            Hết hàng
+                        </span>
+
+
+                    <% } else if (product.quantity <= 10) { %>
+
+                        <span
+                            class="status-badge status-low"
+                        >
+                            Sắp hết
+                        </span>
+
+
+                    <% } else { %>
+
+                        <span
+                            class="status-badge status-available"
+                        >
+                            Còn hàng
+                        </span>
+
+                    <% } %>
+
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>Nhà cung cấp</th>
+
+                <td>
+                    <%= product.supplier_name || "Chưa có" %>
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>Điện thoại NCC</th>
+
+                <td>
+                    <%= product.supplier_phone || "-" %>
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>Email NCC</th>
+
+                <td>
+                    <%= product.supplier_email || "-" %>
+                </td>
+
+            </tr>
+
+
+            <% if (product.created_at) { %>
+
+                <tr>
+
+                    <th>Ngày tạo</th>
+
+                    <td>
+                        <%= product.created_at %>
+                    </td>
+
+                </tr>
+
+            <% } %>
+
+
+        </tbody>
+
+    </table>
+
+
+    <div class="detail-actions">
+
+        <a
+            href="/products/<%= product.id %>/edit"
+            class="action-link edit-link"
+        >
+            Sửa sản phẩm
+        </a>
+
+
+        <a
+            href="/products"
+            class="action-link view-link"
+        >
+            Quay lại danh sách
+        </a>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- LỊCH SỬ GIAO DỊCH -->
+    <!-- ========================= -->
+
+    <h2>
+        Lịch sử nhập / xuất gần nhất
+    </h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Loại giao dịch</th>
+                    <th>Số lượng</th>
+                    <th>Ghi chú</th>
+                    <th>Thời gian</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                <% if (transactions.length === 0) { %>
+
+                    <tr>
+
+                        <td
+                            colspan="4"
+                            class="empty-row"
+                        >
+                            Chưa có giao dịch nhập/xuất.
+                        </td>
+
+                    </tr>
+
+                <% } %>
+
+
+                <% transactions.forEach(t => { %>
+
+                    <tr>
+
+                        <td>
+
+                            <% if (
+                                t.transaction_type === "IMPORT"
+                            ) { %>
+
+                                <span
+                                    class="transaction-badge transaction-import"
+                                >
+                                    NHẬP
+                                </span>
+
+
+                            <% } else { %>
+
+                                <span
+                                    class="transaction-badge transaction-export"
+                                >
+                                    XUẤT
+                                </span>
+
+                            <% } %>
+
+                        </td>
+
+
+                        <td>
+                            <%= t.quantity %>
+                        </td>
+
+
+                        <td>
+                            <%= t.note || "-" %>
+                        </td>
+
+
+                        <td>
+                            <%= t.created_at %>
+                        </td>
+
+                    </tr>
+
+                <% }) %>
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+
+</body>
+
+</html>

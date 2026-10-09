@@ -3,165 +3,393 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<title>
-    Nhà cung cấp
-</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<link
-    rel="stylesheet"
-    href="/css/style.css"
->
+    <title>Quản lý nhà cung cấp</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
 
 </head>
+
 
 <body>
 
 <header>
 
-<h1>
-    Quản lý Nhà cung cấp
-</h1>
+    <h1>Quản lý Nhà cung cấp</h1>
 
-<nav>
-
-<a href="/">
-Dashboard
-</a>
-
-<a href="/products">
-Sản phẩm
-</a>
-
-<a href="/suppliers">
-Nhà cung cấp
-</a>
-
-<a href="/inventory">
-Nhập / Xuất kho
-</a>
-
-</nav>
+    <nav>
+        <a href="/">Dashboard</a>
+        <a href="/products">Sản phẩm</a>
+        <a href="/suppliers">Nhà cung cấp</a>
+        <a href="/inventory">Nhập / Xuất kho</a>
+    </nav>
 
 </header>
 
 
 <main>
 
-<h2>Thêm nhà cung cấp</h2>
+    <!-- ========================= -->
+    <!-- THÊM NHÀ CUNG CẤP -->
+    <!-- ========================= -->
+
+    <h2>Thêm nhà cung cấp</h2>
 
 
-<form
-    action="/suppliers/add"
-    method="POST"
->
+    <form
+        action="/suppliers/add"
+        method="POST"
+    >
 
-<input
-    name="name"
-    placeholder="Tên nhà cung cấp"
-    required
->
-
-<input
-    name="phone"
-    placeholder="Số điện thoại"
->
-
-<input
-    name="email"
-    type="email"
-    placeholder="Email"
->
-
-<input
-    name="address"
-    placeholder="Địa chỉ"
->
-
-<button type="submit">
-    Thêm
-</button>
-
-</form>
+        <input
+            name="name"
+            placeholder="Tên nhà cung cấp"
+            required
+        >
 
 
-<h2>
-    Danh sách nhà cung cấp
-</h2>
+        <input
+            name="phone"
+            placeholder="Số điện thoại"
+        >
 
 
-<table>
-
-<thead>
-
-<tr>
-
-<th>ID</th>
-<th>Tên</th>
-<th>Điện thoại</th>
-<th>Email</th>
-<th>Địa chỉ</th>
-<th>Thao tác</th>
-
-</tr>
-
-</thead>
+        <input
+            name="email"
+            type="email"
+            placeholder="Email"
+        >
 
 
-<tbody>
+        <input
+            name="address"
+            placeholder="Địa chỉ"
+        >
 
-<% suppliers.forEach(supplier => { %>
 
-<tr>
+        <button type="submit">
+            Thêm
+        </button>
 
-<td>
-<%= supplier.id %>
-</td>
+    </form>
 
-<td>
-<%= supplier.name %>
-</td>
 
-<td>
-<%= supplier.phone || "" %>
-</td>
+    <hr>
 
-<td>
-<%= supplier.email || "" %>
-</td>
 
-<td>
-<%= supplier.address || "" %>
-</td>
+    <!-- ========================= -->
+    <!-- SEARCH + SORT -->
+    <!-- ========================= -->
 
-<td>
+    <h2>Tìm kiếm / Sắp xếp</h2>
 
-<form
-    action="/suppliers/delete/<%= supplier.id %>"
-    method="POST"
->
 
-<button
-    class="danger"
-    type="submit"
->
-    Xóa
-</button>
+    <form
+        id="supplierFilterForm"
+        action="/suppliers"
+        method="GET"
+        class="filter-form"
+    >
 
-</form>
+        <input
+            id="supplierSearch"
+            name="search"
+            value="<%= filters.search %>"
+            placeholder="Tên, SĐT, email, địa chỉ..."
+            autocomplete="off"
+        >
 
-</td>
 
-</tr>
+        <select
+            name="sort"
+            class="supplier-auto-filter"
+        >
 
-<% }) %>
+            <option
+                value="newest"
 
-</tbody>
+                <%= filters.sort === "newest"
+                    ? "selected"
+                    : "" %>
+            >
+                Mới nhất
+            </option>
 
-</table>
+
+            <option
+                value="name"
+
+                <%= filters.sort === "name"
+                    ? "selected"
+                    : "" %>
+            >
+                Tên
+            </option>
+
+
+            <option
+                value="email"
+
+                <%= filters.sort === "email"
+                    ? "selected"
+                    : "" %>
+            >
+                Email
+            </option>
+
+        </select>
+
+
+        <select
+            name="order"
+            class="supplier-auto-filter"
+        >
+
+            <option
+                value="asc"
+
+                <%= filters.order === "asc"
+                    ? "selected"
+                    : "" %>
+            >
+                Tăng dần
+            </option>
+
+
+            <option
+                value="desc"
+
+                <%= filters.order === "desc"
+                    ? "selected"
+                    : "" %>
+            >
+                Giảm dần
+            </option>
+
+        </select>
+
+
+        <!-- Không còn nút Áp dụng -->
+
+
+        <a
+            href="/suppliers"
+            class="reset-filter"
+        >
+            Đặt lại
+        </a>
+
+    </form>
+
+
+    <p>
+
+        Tìm thấy:
+
+        <strong>
+            <%= pagination.totalItems %>
+        </strong>
+
+        nhà cung cấp
+
+    </p>
+
+
+    <!-- ========================= -->
+    <!-- BẢNG NHÀ CUNG CẤP -->
+    <!-- ========================= -->
+
+    <h2>Danh sách nhà cung cấp</h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>Điện thoại</th>
+                    <th>Email</th>
+                    <th>Địa chỉ</th>
+                    <th>Thao tác</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                <% if (suppliers.length === 0) { %>
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="empty-row"
+                        >
+                            Không tìm thấy nhà cung cấp.
+                        </td>
+
+                    </tr>
+
+                <% } %>
+
+
+                <% suppliers.forEach(supplier => { %>
+
+                    <tr>
+
+                        <td>
+                            <%= supplier.id %>
+                        </td>
+
+
+                        <td>
+                            <%= supplier.name %>
+                        </td>
+
+
+                        <td>
+                            <%= supplier.phone || "-" %>
+                        </td>
+
+
+                        <td>
+                            <%= supplier.email || "-" %>
+                        </td>
+
+
+                        <td>
+                            <%= supplier.address || "-" %>
+                        </td>
+
+
+                        <td class="action-cell">
+
+                            <a
+                                href="/suppliers/<%= supplier.id %>"
+                                class="action-link view-link"
+                            >
+                                Xem
+                            </a>
+
+
+                            <a
+                                href="/suppliers/<%= supplier.id %>/edit"
+                                class="action-link edit-link"
+                            >
+                                Sửa
+                            </a>
+
+
+                            <form
+                                action="/suppliers/delete/<%= supplier.id %>"
+                                method="POST"
+                                class="inline-form"
+                                onsubmit="return confirm('Bạn có chắc muốn xóa nhà cung cấp này?');"
+                            >
+
+                                <button
+                                    class="danger"
+                                    type="submit"
+                                >
+                                    Xóa
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                <% }) %>
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- PAGINATION -->
+    <!-- ========================= -->
+
+    <%
+        const queryBase =
+            `search=${encodeURIComponent(filters.search)}`
+            + `&sort=${encodeURIComponent(filters.sort)}`
+            + `&order=${encodeURIComponent(filters.order)}`;
+    %>
+
+
+    <div class="pagination">
+
+
+        <% if (pagination.page > 1) { %>
+
+            <a
+                href="/suppliers?page=<%= pagination.page - 1 %>&<%= queryBase %>"
+            >
+                ← Trước
+            </a>
+
+        <% } %>
+
+
+        <span>
+
+            Trang
+
+            <strong>
+                <%= pagination.page %>
+            </strong>
+
+            /
+
+            <strong>
+                <%= pagination.totalPages %>
+            </strong>
+
+        </span>
+
+
+        <% if (
+            pagination.page <
+            pagination.totalPages
+        ) { %>
+
+            <a
+                href="/suppliers?page=<%= pagination.page + 1 %>&<%= queryBase %>"
+            >
+                Sau →
+            </a>
+
+        <% } %>
+
+
+    </div>
 
 </main>
+
+<script
+    src="/js/filters.js"
+    defer
+></script>
 
 </body>
 
