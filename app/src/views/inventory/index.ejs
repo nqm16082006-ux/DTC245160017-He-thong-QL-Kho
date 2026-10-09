@@ -2,278 +2,339 @@
 <html lang="vi">
 
 <head>
-
-<meta charset="UTF-8">
-
-<title>
-Nhập xuất kho
-</title>
-
-<link
-    rel="stylesheet"
-    href="/css/style.css"
->
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhập / Xuất Kho - Hệ thống Quản lý Kho</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 
 <header>
+    <div class="header-container">
+        <a href="/" class="brand-section">
+            <div class="brand-logo-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+            </div>
+            <div class="brand-info">
+                <span class="brand-title">Hệ thống Quản lý Kho hàng</span>
+                <span class="brand-subtitle">Inventory Management System</span>
+            </div>
+        </a>
 
-<h1>
-Nhập / Xuất Kho
-</h1>
-
-<nav>
-
-<a href="/">
-Dashboard
-</a>
-
-<a href="/products">
-Sản phẩm
-</a>
-
-<a href="/suppliers">
-Nhà cung cấp
-</a>
-
-<a href="/inventory">
-Nhập / Xuất kho
-</a>
-
-</nav>
-
+        <nav>
+            <a href="/">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                Dashboard
+            </a>
+            <a href="/products">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                Sản phẩm
+            </a>
+            <a href="/suppliers">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 21h18"></path>
+                    <path d="M9 8h1"></path>
+                    <path d="M9 12h1"></path>
+                    <path d="M9 16h1"></path>
+                    <path d="M14 8h1"></path>
+                    <path d="M14 12h1"></path>
+                    <path d="M14 16h1"></path>
+                    <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+                </svg>
+                Nhà cung cấp
+            </a>
+            <a href="/inventory" class="active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polyline points="17 1 21 5 17 9"></polyline>
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                    <polyline points="7 23 3 19 7 15"></polyline>
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                </svg>
+                Nhập / Xuất kho
+            </a>
+        </nav>
+    </div>
 </header>
-
 
 <main>
 
-
-<% if (message) { %>
-
-<div class="success">
-<%= message %>
-</div>
-
-<% } %>
-
-
-<% if (error) { %>
-
-<div class="error">
-<%= error %>
-</div>
-
-<% } %>
-
-
-<div class="inventory-grid">
-
-
-<div>
-
-<h2>
-Nhập kho
-</h2>
-
-<form
-    action="/inventory/import"
-    method="POST"
->
-
-<select
-    name="product_id"
-    required
->
-
-<option value="">
-Chọn sản phẩm
-</option>
-
-<% products.forEach(product => { %>
-
-<option value="<%= product.id %>">
-
-<%= product.name %>
-
--
-
-Tồn:
-<%= product.quantity %>
-
-</option>
-
-<% }) %>
-
-</select>
-
-
-<input
-    type="number"
-    name="quantity"
-    min="1"
-    placeholder="Số lượng nhập"
-    required
->
-
-
-<input
-    name="note"
-    placeholder="Ghi chú"
->
-
-
-<button type="submit">
-
-Nhập kho
-
-</button>
-
-</form>
-
-</div>
-
-
-<div>
-
-<h2>
-Xuất kho
-</h2>
-
-
-<form
-    action="/inventory/export"
-    method="POST"
->
-
-<select
-    name="product_id"
-    required
->
-
-<option value="">
-Chọn sản phẩm
-</option>
-
-
-<% products.forEach(product => { %>
-
-<option value="<%= product.id %>">
-
-<%= product.name %>
-
--
-
-Tồn:
-<%= product.quantity %>
-
-</option>
-
-<% }) %>
-
-</select>
-
-
-<input
-    type="number"
-    name="quantity"
-    min="1"
-    placeholder="Số lượng xuất"
-    required
->
-
-
-<input
-    name="note"
-    placeholder="Ghi chú"
->
-
-
-<button
-    class="warning"
-    type="submit"
->
-
-Xuất kho
-
-</button>
-
-</form>
-
-</div>
-
-</div>
-
-
-<h2>
-Lịch sử nhập / xuất
-</h2>
-
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>ID</th>
-<th>Sản phẩm</th>
-<th>SKU</th>
-<th>Loại</th>
-<th>Số lượng</th>
-<th>Ghi chú</th>
-<th>Thời gian</th>
-
-</tr>
-
-</thead>
-
-
-<tbody>
-
-<% transactions.forEach(t => { %>
-
-<tr>
-
-<td>
-<%= t.id %>
-</td>
-
-<td>
-<%= t.product_name %>
-</td>
-
-<td>
-<%= t.sku %>
-</td>
-
-<td>
-<%= t.transaction_type %>
-</td>
-
-<td>
-<%= t.quantity %>
-</td>
-
-<td>
-<%= t.note || "" %>
-</td>
-
-<td>
-<%= t.created_at %>
-</td>
-
-</tr>
-
-<% }) %>
-
-</tbody>
-
-</table>
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-title-group">
+            <h2>
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                    <polyline points="17 1 21 5 17 9"></polyline>
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                    <polyline points="7 23 3 19 7 15"></polyline>
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                </svg>
+                Nghiệp vụ Nhập / Xuất Kho
+            </h2>
+            <p class="page-description">Thực hiện cập nhật lưu chuyển hàng hóa, tự động kiểm tra số lượng tồn kho và ghi nhật ký giao dịch.</p>
+        </div>
+    </div>
+
+    <!-- Alert Messages -->
+    <% if (message) { %>
+        <div class="success">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <span><%= message %></span>
+        </div>
+    <% } %>
+
+    <% if (error) { %>
+        <div class="error">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span><%= error %></span>
+        </div>
+    <% } %>
+
+    <!-- =========================================
+         PANEL NHẬP / XUẤT KHO
+         ========================================= -->
+    <div class="inventory-grid">
+
+        <!-- Panel Nhập Kho -->
+        <div class="inventory-panel">
+            <div class="inventory-panel-header">
+                <div class="inventory-icon-box import-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </div>
+                <h2>Nhập kho (IMPORT)</h2>
+            </div>
+
+            <form action="/inventory/import" method="POST">
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #334155;">
+                        Chọn sản phẩm nhập kho *
+                    </label>
+                    <select name="product_id" required>
+                        <option value="">-- Chọn sản phẩm --</option>
+                        <% products.forEach(product => { %>
+                            <option value="<%= product.id %>">
+                                <%= product.name %> (SKU: <%= product.sku %>) - Tồn: <%= product.quantity %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #334155;">
+                        Số lượng nhập *
+                    </label>
+                    <input
+                        type="number"
+                        name="quantity"
+                        min="1"
+                        placeholder="Nhập số lượng (&gt; 0)"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #334155;">
+                        Ghi chú giao dịch
+                    </label>
+                    <input
+                        name="note"
+                        placeholder="Lý do nhập, số hóa đơn, nguồn..."
+                    >
+                </div>
+
+                <button type="submit" class="success">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Xác nhận nhập kho
+                </button>
+            </form>
+        </div>
+
+        <!-- Panel Xuất Kho -->
+        <div class="inventory-panel">
+            <div class="inventory-panel-header">
+                <div class="inventory-icon-box export-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="17 14 12 9 7 14"></polyline>
+                        <line x1="12" y1="9" x2="12" y2="21"></line>
+                    </svg>
+                </div>
+                <h2>Xuất kho (EXPORT)</h2>
+            </div>
+
+            <form action="/inventory/export" method="POST">
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #334155;">
+                        Chọn sản phẩm xuất kho *
+                    </label>
+                    <select name="product_id" required>
+                        <option value="">-- Chọn sản phẩm --</option>
+                        <% products.forEach(product => { %>
+                            <option value="<%= product.id %>">
+                                <%= product.name %> (SKU: <%= product.sku %>) - Tồn: <%= product.quantity %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #334155;">
+                        Số lượng xuất *
+                    </label>
+                    <input
+                        type="number"
+                        name="quantity"
+                        min="1"
+                        placeholder="Nhập số lượng (≤ tồn kho)"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #334155;">
+                        Ghi chú giao dịch
+                    </label>
+                    <input
+                        name="note"
+                        placeholder="Đơn hàng, khách hàng, lý do..."
+                    >
+                </div>
+
+                <button class="warning" type="submit">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="17 14 12 9 7 14"></polyline>
+                        <line x1="12" y1="9" x2="12" y2="21"></line>
+                    </svg>
+                    Xác nhận xuất kho
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- =========================================
+         LỊCH SỬ GIAO DỊCH GẦN NHẤT
+         ========================================= -->
+    <h3 class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        Lịch sử 50 giao dịch nhập / xuất gần nhất
+    </h3>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 70px;">ID</th>
+                    <th>Tên sản phẩm</th>
+                    <th style="width: 130px;">Mã SKU</th>
+                    <th style="width: 140px; text-align: center;">Loại giao dịch</th>
+                    <th style="width: 110px; text-align: center;">Số lượng</th>
+                    <th>Ghi chú</th>
+                    <th style="width: 200px;">Thời gian</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% if (transactions.length === 0) { %>
+                    <tr>
+                        <td colspan="7" class="empty-row">
+                            <div class="empty-row-box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
+                                <span>Chưa có giao dịch nhập hoặc xuất nào được ghi nhận.</span>
+                            </div>
+                        </td>
+                    </tr>
+                <% } %>
+
+                <% transactions.forEach(t => { %>
+                    <tr>
+                        <td>
+                            <strong style="color: var(--text-muted);">#<%= t.id %></strong>
+                        </td>
+
+                        <td>
+                            <strong style="color: var(--text-main);"><%= t.product_name %></strong>
+                        </td>
+
+                        <td>
+                            <code style="background: #f1f5f9; padding: 3px 6px; border-radius: 4px; font-weight: 600; color: #334155;">
+                                <%= t.sku %>
+                            </code>
+                        </td>
+
+                        <td style="text-align: center;">
+                            <% if (t.transaction_type === "IMPORT") { %>
+                                <span class="transaction-badge transaction-import">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <polyline points="19 12 12 19 5 12"></polyline>
+                                    </svg>
+                                    NHẬP
+                                </span>
+                            <% } else { %>
+                                <span class="transaction-badge transaction-export">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <line x1="12" y1="19" x2="12" y2="5"></line>
+                                        <polyline points="5 12 12 5 19 12"></polyline>
+                                    </svg>
+                                    XUẤT
+                                </span>
+                            <% } %>
+                        </td>
+
+                        <td style="text-align: center;">
+                            <strong style="font-size: 15px;">
+                                <%= t.quantity %>
+                            </strong>
+                        </td>
+
+                        <td>
+                            <%= t.note || "-" %>
+                        </td>
+
+                        <td style="color: var(--text-muted); font-size: 13px;">
+                            <%= t.created_at %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
 
 </main>
 
-</body>
+<script src="/js/filters.js" defer></script>
 
+</body>
 </html>

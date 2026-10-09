@@ -2,103 +2,197 @@
 <html lang="vi">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        Inventory Management
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="/css/style.css"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Hệ thống Quản lý Kho hàng</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 
 <header>
-
-    <h1>
-        Hệ thống Quản lý Kho hàng
-    </h1>
-
-    <nav>
-
-        <a href="/">
-            Dashboard
+    <div class="header-container">
+        <a href="/" class="brand-section">
+            <div class="brand-logo-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+            </div>
+            <div class="brand-info">
+                <span class="brand-title">Hệ thống Quản lý Kho hàng</span>
+                <span class="brand-subtitle">Inventory Management System</span>
+            </div>
         </a>
 
-        <a href="/products">
-            Sản phẩm
-        </a>
-
-        <a href="/suppliers">
-            Nhà cung cấp
-        </a>
-
-        <a href="/inventory">
-            Nhập / Xuất kho
-        </a>
-
-    </nav>
-
+        <nav>
+            <a href="/" class="active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                Dashboard
+            </a>
+            <a href="/products">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                Sản phẩm
+            </a>
+            <a href="/suppliers">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 21h18"></path>
+                    <path d="M9 8h1"></path>
+                    <path d="M9 12h1"></path>
+                    <path d="M9 16h1"></path>
+                    <path d="M14 8h1"></path>
+                    <path d="M14 12h1"></path>
+                    <path d="M14 16h1"></path>
+                    <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+                </svg>
+                Nhà cung cấp
+            </a>
+            <a href="/inventory">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polyline points="17 1 21 5 17 9"></polyline>
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                    <polyline points="7 23 3 19 7 15"></polyline>
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                </svg>
+                Nhập / Xuất kho
+            </a>
+        </nav>
+    </div>
 </header>
-
 
 <main>
 
-    <h2>Dashboard</h2>
+    <!-- Hero Banner -->
+    <div class="dashboard-hero">
+        <div class="hero-text">
+            <h1>Tổng quan Hệ thống Kho</h1>
+            <p>Theo dõi thời gian thực số lượng sản phẩm, nhà cung cấp và tồn kho hiện tại.</p>
+        </div>
+        <div>
+            <span class="hero-badge">Hệ thống đang hoạt động</span>
+        </div>
+    </div>
 
-
+    <!-- Statistics Cards -->
     <div class="cards">
-
         <div class="card">
-
-            <h3>Sản phẩm</h3>
-
-            <p>
-                <%= productCount %>
-            </p>
-
+            <div class="card-header-flex">
+                <h3>Sản phẩm</h3>
+                <div class="card-icon-box icon-blue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    </svg>
+                </div>
+            </div>
+            <p><%= productCount %></p>
+            <div class="card-footer-note">
+                <span>Mặt hàng được quản trị trong kho</span>
+            </div>
         </div>
 
-
         <div class="card">
-
-            <h3>
-                Nhà cung cấp
-            </h3>
-
-            <p>
-                <%= supplierCount %>
-            </p>
-
+            <div class="card-header-flex">
+                <h3>Nhà cung cấp</h3>
+                <div class="card-icon-box icon-purple">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+            </div>
+            <p><%= supplierCount %></p>
+            <div class="card-footer-note">
+                <span>Đối tác phân phối và cung ứng</span>
+            </div>
         </div>
 
-
         <div class="card">
-
-            <h3>
-                Tổng tồn kho
-            </h3>
-
-            <p>
-                <%= stock %>
-            </p>
-
+            <div class="card-header-flex">
+                <h3>Tổng tồn kho</h3>
+                <div class="card-icon-box icon-emerald">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+            </div>
+            <p><%= stock %></p>
+            <div class="card-footer-note">
+                <span>Đơn vị sản phẩm lưu trong kho</span>
+            </div>
         </div>
+    </div>
 
+    <!-- Quick Actions -->
+    <h3 class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        Truy cập nhanh chức năng
+    </h3>
+
+    <div class="quick-actions-grid">
+        <a href="/products" class="quick-action-card">
+            <div class="action-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                </svg>
+            </div>
+            <span class="action-title">Danh sách Sản phẩm</span>
+            <span class="action-desc">Xem, tìm kiếm, lọc và cập nhật thông tin sản phẩm</span>
+        </a>
+
+        <a href="/suppliers" class="quick-action-card">
+            <div class="action-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 21h18"></path>
+                    <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+                </svg>
+            </div>
+            <span class="action-title">Nhà cung cấp</span>
+            <span class="action-desc">Quản lý đối tác, thông tin liên lạc và nguồn hàng</span>
+        </a>
+
+        <a href="/inventory" class="quick-action-card">
+            <div class="action-icon" style="background: #ecfdf5; color: #059669;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+            </div>
+            <span class="action-title">Nhập kho</span>
+            <span class="action-desc">Tăng số lượng tồn kho và ghi nhận lịch sử IMPORT</span>
+        </a>
+
+        <a href="/inventory" class="quick-action-card">
+            <div class="action-icon" style="background: #fffbeb; color: #d97706;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="17 14 12 9 7 14"></polyline>
+                    <line x1="12" y1="9" x2="12" y2="21"></line>
+                </svg>
+            </div>
+            <span class="action-title">Xuất kho</span>
+            <span class="action-desc">Xuất hàng, kiểm tra số dư tồn kho và lưu vết EXPORT</span>
+        </a>
     </div>
 
 </main>
 
-</body>
+<script src="/js/filters.js" defer></script>
 
+</body>
 </html>

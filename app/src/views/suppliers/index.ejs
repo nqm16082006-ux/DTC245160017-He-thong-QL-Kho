@@ -2,333 +2,347 @@
 <html lang="vi">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Quản lý nhà cung cấp</title>
-
-    <link
-        rel="stylesheet"
-        href="/css/style.css"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Nhà cung cấp - Hệ thống Quản lý Kho</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
-
 
 <body>
 
 <header>
+    <div class="header-container">
+        <a href="/" class="brand-section">
+            <div class="brand-logo-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+            </div>
+            <div class="brand-info">
+                <span class="brand-title">Hệ thống Quản lý Kho hàng</span>
+                <span class="brand-subtitle">Inventory Management System</span>
+            </div>
+        </a>
 
-    <h1>Quản lý Nhà cung cấp</h1>
-
-    <nav>
-        <a href="/">Dashboard</a>
-        <a href="/products">Sản phẩm</a>
-        <a href="/suppliers">Nhà cung cấp</a>
-        <a href="/inventory">Nhập / Xuất kho</a>
-    </nav>
-
+        <nav>
+            <a href="/">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                Dashboard
+            </a>
+            <a href="/products">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                Sản phẩm
+            </a>
+            <a href="/suppliers" class="active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 21h18"></path>
+                    <path d="M9 8h1"></path>
+                    <path d="M9 12h1"></path>
+                    <path d="M9 16h1"></path>
+                    <path d="M14 8h1"></path>
+                    <path d="M14 12h1"></path>
+                    <path d="M14 16h1"></path>
+                    <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+                </svg>
+                Nhà cung cấp
+            </a>
+            <a href="/inventory">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polyline points="17 1 21 5 17 9"></polyline>
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                    <polyline points="7 23 3 19 7 15"></polyline>
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                </svg>
+                Nhập / Xuất kho
+            </a>
+        </nav>
+    </div>
 </header>
-
 
 <main>
 
-    <!-- ========================= -->
-    <!-- THÊM NHÀ CUNG CẤP -->
-    <!-- ========================= -->
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-title-group">
+            <h2>
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                    <path d="M3 21h18"></path>
+                    <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+                </svg>
+                Quản lý Nhà cung cấp
+            </h2>
+            <p class="page-description">Quản lý mạng lưới đối tác phân phối, thông tin liên hệ và danh mục sản phẩm cung ứng.</p>
+        </div>
+    </div>
 
-    <h2>Thêm nhà cung cấp</h2>
+    <!-- =========================================
+         THÊM NHÀ CUNG CẤP
+         ========================================= -->
+    <div class="form-card">
+        <h3 class="form-card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Thêm nhà cung cấp mới
+        </h3>
 
-
-    <form
-        action="/suppliers/add"
-        method="POST"
-    >
-
-        <input
-            name="name"
-            placeholder="Tên nhà cung cấp"
-            required
-        >
-
-
-        <input
-            name="phone"
-            placeholder="Số điện thoại"
-        >
-
-
-        <input
-            name="email"
-            type="email"
-            placeholder="Email"
-        >
-
-
-        <input
-            name="address"
-            placeholder="Địa chỉ"
-        >
-
-
-        <button type="submit">
-            Thêm
-        </button>
-
-    </form>
-
-
-    <hr>
-
-
-    <!-- ========================= -->
-    <!-- SEARCH + SORT -->
-    <!-- ========================= -->
-
-    <h2>Tìm kiếm / Sắp xếp</h2>
-
-
-    <form
-        id="supplierFilterForm"
-        action="/suppliers"
-        method="GET"
-        class="filter-form"
-    >
-
-        <input
-            id="supplierSearch"
-            name="search"
-            value="<%= filters.search %>"
-            placeholder="Tên, SĐT, email, địa chỉ..."
-            autocomplete="off"
-        >
-
-
-        <select
-            name="sort"
-            class="supplier-auto-filter"
-        >
-
-            <option
-                value="newest"
-
-                <%= filters.sort === "newest"
-                    ? "selected"
-                    : "" %>
+        <form action="/suppliers/add" method="POST" class="form-grid-inline">
+            <input
+                name="name"
+                placeholder="Tên nhà cung cấp *"
+                required
             >
-                Mới nhất
-            </option>
 
-
-            <option
-                value="name"
-
-                <%= filters.sort === "name"
-                    ? "selected"
-                    : "" %>
+            <input
+                name="phone"
+                placeholder="Số điện thoại"
             >
-                Tên
-            </option>
 
-
-            <option
-                value="email"
-
-                <%= filters.sort === "email"
-                    ? "selected"
-                    : "" %>
+            <input
+                name="email"
+                type="email"
+                placeholder="Email liên hệ"
             >
-                Email
-            </option>
 
-        </select>
+            <input
+                name="address"
+                placeholder="Địa chỉ trụ sở / kho"
+            >
 
+            <button type="submit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Thêm NCC
+            </button>
+        </form>
+    </div>
 
-        <select
-            name="order"
-            class="supplier-auto-filter"
+    <!-- =========================================
+         TÌM KIẾM / SẮP XẾP
+         ========================================= -->
+    <div class="filter-toolbar-card">
+        <form
+            id="supplierFilterForm"
+            action="/suppliers"
+            method="GET"
+            class="filter-form"
         >
-
-            <option
-                value="asc"
-
-                <%= filters.order === "asc"
-                    ? "selected"
-                    : "" %>
+            <input
+                id="supplierSearch"
+                name="search"
+                value="<%= filters.search %>"
+                placeholder="🔍 Tìm theo tên, SĐT, email, địa chỉ..."
+                autocomplete="off"
             >
-                Tăng dần
-            </option>
 
-
-            <option
-                value="desc"
-
-                <%= filters.order === "desc"
-                    ? "selected"
-                    : "" %>
+            <select
+                name="sort"
+                class="supplier-auto-filter"
             >
-                Giảm dần
-            </option>
+                <option
+                    value="newest"
+                    <%= filters.sort === "newest" ? "selected" : "" %>
+                >
+                    Sắp xếp: Mới nhất
+                </option>
 
-        </select>
+                <option
+                    value="name"
+                    <%= filters.sort === "name" ? "selected" : "" %>
+                >
+                    Sắp xếp: Tên nhà cung cấp
+                </option>
 
+                <option
+                    value="email"
+                    <%= filters.sort === "email" ? "selected" : "" %>
+                >
+                    Sắp xếp: Email
+                </option>
+            </select>
 
-        <!-- Không còn nút Áp dụng -->
+            <select
+                name="order"
+                class="supplier-auto-filter"
+            >
+                <option
+                    value="asc"
+                    <%= filters.order === "asc" ? "selected" : "" %>
+                >
+                    Thứ tự: Tăng dần
+                </option>
 
+                <option
+                    value="desc"
+                    <%= filters.order === "desc" ? "selected" : "" %>
+                >
+                    Thứ tự: Giảm dần
+                </option>
+            </select>
 
-        <a
-            href="/suppliers"
-            class="reset-filter"
-        >
-            Đặt lại
-        </a>
+            <a href="/suppliers" class="reset-filter">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <polyline points="23 20 23 14 17 14"></polyline>
+                    <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                </svg>
+                Đặt lại
+            </a>
+        </form>
+    </div>
 
-    </form>
+    <!-- Summary Count -->
+    <div class="filter-summary-row">
+        <div>
+            Tìm thấy:
+            <span class="result-chip">
+                <strong><%= pagination.totalItems %></strong> nhà cung cấp
+            </span>
+        </div>
+    </div>
 
-
-    <p>
-
-        Tìm thấy:
-
-        <strong>
-            <%= pagination.totalItems %>
-        </strong>
-
-        nhà cung cấp
-
-    </p>
-
-
-    <!-- ========================= -->
-    <!-- BẢNG NHÀ CUNG CẤP -->
-    <!-- ========================= -->
-
-    <h2>Danh sách nhà cung cấp</h2>
-
-
+    <!-- =========================================
+         BẢNG DANH SÁCH NHÀ CUNG CẤP
+         ========================================= -->
     <div class="table-wrapper">
-
         <table>
-
             <thead>
-
                 <tr>
-                    <th>ID</th>
-                    <th>Tên</th>
-                    <th>Điện thoại</th>
-                    <th>Email</th>
+                    <th style="width: 70px;">ID</th>
+                    <th>Tên nhà cung cấp</th>
+                    <th style="width: 160px;">Điện thoại</th>
+                    <th style="width: 200px;">Email</th>
                     <th>Địa chỉ</th>
-                    <th>Thao tác</th>
+                    <th style="width: 190px; text-align: center;">Thao tác</th>
                 </tr>
-
             </thead>
 
-
             <tbody>
-
-
                 <% if (suppliers.length === 0) { %>
-
                     <tr>
-
-                        <td
-                            colspan="6"
-                            class="empty-row"
-                        >
-                            Không tìm thấy nhà cung cấp.
+                        <td colspan="6" class="empty-row">
+                            <div class="empty-row-box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                                <span>Không tìm thấy nhà cung cấp nào phù hợp.</span>
+                            </div>
                         </td>
-
                     </tr>
-
                 <% } %>
 
-
                 <% suppliers.forEach(supplier => { %>
-
                     <tr>
-
                         <td>
-                            <%= supplier.id %>
+                            <strong style="color: var(--text-muted);">#<%= supplier.id %></strong>
                         </td>
 
-
                         <td>
-                            <%= supplier.name %>
+                            <a href="/suppliers/<%= supplier.id %>" style="color: var(--text-main); font-weight: 700; text-decoration: none;">
+                                <%= supplier.name %>
+                            </a>
                         </td>
 
-
                         <td>
-                            <%= supplier.phone || "-" %>
+                            <% if (supplier.phone) { %>
+                                <span style="display: inline-flex; align-items: center; gap: 4px;">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2">
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                    </svg>
+                                    <%= supplier.phone %>
+                                </span>
+                            <% } else { %>
+                                <span style="color: var(--text-light);">-</span>
+                            <% } %>
                         </td>
 
-
                         <td>
-                            <%= supplier.email || "-" %>
+                            <% if (supplier.email) { %>
+                                <span style="display: inline-flex; align-items: center; gap: 4px;">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                    <%= supplier.email %>
+                                </span>
+                            <% } else { %>
+                                <span style="color: var(--text-light);">-</span>
+                            <% } %>
                         </td>
-
 
                         <td>
                             <%= supplier.address || "-" %>
                         </td>
 
-
-                        <td class="action-cell">
-
-                            <a
-                                href="/suppliers/<%= supplier.id %>"
-                                class="action-link view-link"
-                            >
-                                Xem
-                            </a>
-
-
-                            <a
-                                href="/suppliers/<%= supplier.id %>/edit"
-                                class="action-link edit-link"
-                            >
-                                Sửa
-                            </a>
-
-
-                            <form
-                                action="/suppliers/delete/<%= supplier.id %>"
-                                method="POST"
-                                class="inline-form"
-                                onsubmit="return confirm('Bạn có chắc muốn xóa nhà cung cấp này?');"
-                            >
-
-                                <button
-                                    class="danger"
-                                    type="submit"
+                        <td>
+                            <div class="action-cell" style="justify-content: center;">
+                                <a
+                                    href="/suppliers/<%= supplier.id %>"
+                                    class="action-link view-link"
+                                    title="Xem chi tiết"
                                 >
-                                    Xóa
-                                </button>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    Xem
+                                </a>
 
-                            </form>
+                                <a
+                                    href="/suppliers/<%= supplier.id %>/edit"
+                                    class="action-link edit-link"
+                                    title="Sửa nhà cung cấp"
+                                >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                    Sửa
+                                </a>
 
+                                <form
+                                    action="/suppliers/delete/<%= supplier.id %>"
+                                    method="POST"
+                                    class="inline-form"
+                                    onsubmit="return confirm('Bạn có chắc chắn muốn xóa nhà cung cấp \'<%= supplier.name %>\'?');"
+                                >
+                                    <button
+                                        class="danger"
+                                        type="submit"
+                                        title="Xóa nhà cung cấp"
+                                    >
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        </svg>
+                                        Xóa
+                                    </button>
+                                </form>
+                            </div>
                         </td>
-
                     </tr>
-
                 <% }) %>
-
-
             </tbody>
-
         </table>
-
     </div>
 
-
-    <!-- ========================= -->
-    <!-- PAGINATION -->
-    <!-- ========================= -->
-
+    <!-- =========================================
+         PHÂN TRANG (PAGINATION)
+         ========================================= -->
     <%
         const queryBase =
             `search=${encodeURIComponent(filters.search)}`
@@ -336,61 +350,30 @@
             + `&order=${encodeURIComponent(filters.order)}`;
     %>
 
-
     <div class="pagination">
-
-
         <% if (pagination.page > 1) { %>
-
-            <a
-                href="/suppliers?page=<%= pagination.page - 1 %>&<%= queryBase %>"
-            >
+            <a href="/suppliers?page=<%= pagination.page - 1 %>&<%= queryBase %>">
                 ← Trước
             </a>
-
         <% } %>
-
 
         <span>
-
             Trang
-
-            <strong>
-                <%= pagination.page %>
-            </strong>
-
+            <strong><%= pagination.page %></strong>
             /
-
-            <strong>
-                <%= pagination.totalPages %>
-            </strong>
-
+            <strong><%= pagination.totalPages %></strong>
         </span>
 
-
-        <% if (
-            pagination.page <
-            pagination.totalPages
-        ) { %>
-
-            <a
-                href="/suppliers?page=<%= pagination.page + 1 %>&<%= queryBase %>"
-            >
+        <% if (pagination.page < pagination.totalPages) { %>
+            <a href="/suppliers?page=<%= pagination.page + 1 %>&<%= queryBase %>">
                 Sau →
             </a>
-
         <% } %>
-
-
     </div>
 
 </main>
 
-<script
-    src="/js/filters.js"
-    defer
-></script>
+<script src="/js/filters.js" defer></script>
 
 </body>
-
 </html>
