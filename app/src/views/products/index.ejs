@@ -3,484 +3,394 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Quản lý sản phẩm</title>
-
-    <link
-        rel="stylesheet"
-        href="/css/style.css"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Sản phẩm - Hệ thống Quản lý Kho</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
-
 
 <body>
 
 <header>
+    <div class="header-container">
+        <a href="/" class="brand-section">
+            <div class="brand-logo-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+            </div>
+            <div class="brand-info">
+                <span class="brand-title">Hệ thống Quản lý Kho hàng</span>
+                <span class="brand-subtitle">Inventory Management System</span>
+            </div>
+        </a>
 
-    <h1>Quản lý Sản phẩm</h1>
-
-    <nav>
-        <a href="/">Dashboard</a>
-        <a href="/products">Sản phẩm</a>
-        <a href="/suppliers">Nhà cung cấp</a>
-        <a href="/inventory">Nhập / Xuất kho</a>
-    </nav>
-
+        <nav>
+            <a href="/">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                Dashboard
+            </a>
+            <a href="/products" class="active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                Sản phẩm
+            </a>
+            <a href="/suppliers">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 21h18"></path>
+                    <path d="M9 8h1"></path>
+                    <path d="M9 12h1"></path>
+                    <path d="M9 16h1"></path>
+                    <path d="M14 8h1"></path>
+                    <path d="M14 12h1"></path>
+                    <path d="M14 16h1"></path>
+                    <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+                </svg>
+                Nhà cung cấp
+            </a>
+            <a href="/inventory">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polyline points="17 1 21 5 17 9"></polyline>
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                    <polyline points="7 23 3 19 7 15"></polyline>
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                </svg>
+                Nhập / Xuất kho
+            </a>
+        </nav>
+    </div>
 </header>
-
 
 <main>
 
-    <!-- ========================= -->
-    <!-- THÊM SẢN PHẨM -->
-    <!-- ========================= -->
-
-    <h2>Thêm sản phẩm</h2>
-
-    <form
-        action="/products/add"
-        method="POST"
-    >
-
-        <input
-            name="name"
-            placeholder="Tên sản phẩm"
-            required
-        >
-
-        <input
-            name="sku"
-            placeholder="Mã SKU"
-            required
-        >
-
-        <input
-            name="price"
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="Giá"
-            required
-        >
-
-
-        <select name="supplier_id">
-
-            <option value="">
-                -- Nhà cung cấp --
-            </option>
-
-
-            <% suppliers.forEach(supplier => { %>
-
-                <option value="<%= supplier.id %>">
-                    <%= supplier.name %>
-                </option>
-
-            <% }) %>
-
-        </select>
-
-
-        <button type="submit">
-            Thêm sản phẩm
-        </button>
-
-    </form>
-
-
-    <hr>
-
-
-    <!-- ========================= -->
-    <!-- SEARCH / FILTER / SORT -->
-    <!-- ========================= -->
-
-    <h2>Tìm kiếm / Lọc / Sắp xếp</h2>
-
-
-    <form
-        id="productFilterForm"
-        action="/products"
-        method="GET"
-        class="filter-form"
-    >
-
-        <input
-            id="productSearch"
-            name="search"
-            placeholder="Tìm theo tên hoặc SKU..."
-            value="<%= filters.search %>"
-            autocomplete="off"
-        >
-
-
-        <select
-            name="supplier"
-            class="auto-submit-filter"
-        >
-
-            <option value="">
-                Tất cả nhà cung cấp
-            </option>
-
-
-            <% suppliers.forEach(supplier => { %>
-
-                <option
-                    value="<%= supplier.id %>"
-
-                    <%= String(filters.supplier) ===
-                        String(supplier.id)
-                        ? "selected"
-                        : "" %>
-                >
-                    <%= supplier.name %>
-                </option>
-
-            <% }) %>
-
-        </select>
-
-
-        <select
-            name="stock"
-            class="auto-submit-filter"
-        >
-
-            <option value="">
-                Tất cả trạng thái
-            </option>
-
-
-            <option
-                value="out"
-
-                <%= filters.stock === "out"
-                    ? "selected"
-                    : "" %>
-            >
-                Hết hàng
-            </option>
-
-
-            <option
-                value="low"
-
-                <%= filters.stock === "low"
-                    ? "selected"
-                    : "" %>
-            >
-                Sắp hết
-            </option>
-
-
-            <option
-                value="available"
-
-                <%= filters.stock === "available"
-                    ? "selected"
-                    : "" %>
-            >
-                Còn hàng
-            </option>
-
-        </select>
-
-
-        <select
-            name="sort"
-            class="auto-submit-filter"
-        >
-
-            <option
-                value="newest"
-
-                <%= filters.sort === "newest"
-                    ? "selected"
-                    : "" %>
-            >
-                Mới nhất
-            </option>
-
-
-            <option
-                value="name"
-
-                <%= filters.sort === "name"
-                    ? "selected"
-                    : "" %>
-            >
-                Tên sản phẩm
-            </option>
-
-
-            <option
-                value="price"
-
-                <%= filters.sort === "price"
-                    ? "selected"
-                    : "" %>
-            >
-                Giá
-            </option>
-
-
-            <option
-                value="quantity"
-
-                <%= filters.sort === "quantity"
-                    ? "selected"
-                    : "" %>
-            >
-                Tồn kho
-            </option>
-
-
-            <option
-                value="sku"
-
-                <%= filters.sort === "sku"
-                    ? "selected"
-                    : "" %>
-            >
-                SKU
-            </option>
-
-        </select>
-
-
-        <select
-            name="order"
-            class="auto-submit-filter"
-        >
-
-            <option
-                value="asc"
-
-                <%= filters.order === "asc"
-                    ? "selected"
-                    : "" %>
-            >
-                Tăng dần
-            </option>
-
-
-            <option
-                value="desc"
-
-                <%= filters.order === "desc"
-                    ? "selected"
-                    : "" %>
-            >
-                Giảm dần
-            </option>
-
-        </select>
-
-
-        <!-- Không còn nút Áp dụng -->
-
-
-        <a
-            href="/products"
-            class="reset-filter"
-        >
-            Đặt lại
-        </a>
-
-    </form>
-
-
-    <p>
-        Tìm thấy:
-        <strong>
-            <%= pagination.totalItems %>
-        </strong>
-        sản phẩm
-    </p>
-
-
-    <!-- ========================= -->
-    <!-- DANH SÁCH SẢN PHẨM -->
-    <!-- ========================= -->
-
-    <h2>Danh sách sản phẩm</h2>
-
-
-    <div class="table-wrapper">
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>ID</th>
-                    <th>SKU</th>
-                    <th>Tên</th>
-                    <th>Giá</th>
-                    <th>Tồn kho</th>
-                    <th>Trạng thái</th>
-                    <th>Nhà cung cấp</th>
-                    <th>Thao tác</th>
-                </tr>
-
-            </thead>
-
-
-            <tbody>
-
-
-                <% if (products.length === 0) { %>
-
-                    <tr>
-
-                        <td
-                            colspan="8"
-                            class="empty-row"
-                        >
-                            Không tìm thấy sản phẩm phù hợp.
-                        </td>
-
-                    </tr>
-
-                <% } %>
-
-
-                <% products.forEach(product => { %>
-
-                    <tr>
-
-                        <td>
-                            <%= product.id %>
-                        </td>
-
-
-                        <td>
-                            <%= product.sku %>
-                        </td>
-
-
-                        <td>
-                            <%= product.name %>
-                        </td>
-
-
-                        <td>
-                            <%= Number(product.price)
-                                .toLocaleString("vi-VN") %>
-                            VNĐ
-                        </td>
-
-
-                        <td>
-
-                            <strong>
-                                <%= product.quantity %>
-                            </strong>
-
-                        </td>
-
-
-                        <!-- ========================= -->
-                        <!-- TRẠNG THÁI -->
-                        <!-- ========================= -->
-
-                        <td>
-
-                            <% if (product.quantity === 0) { %>
-
-                                <span
-                                    class="status-badge status-out"
-                                >
-                                    Hết hàng
-                                </span>
-
-
-                            <% } else if (product.quantity <= 10) { %>
-
-                                <span
-                                    class="status-badge status-low"
-                                >
-                                    Sắp hết
-                                </span>
-
-
-                            <% } else { %>
-
-                                <span
-                                    class="status-badge status-available"
-                                >
-                                    Còn hàng
-                                </span>
-
-                            <% } %>
-
-                        </td>
-
-
-                        <td>
-                            <%= product.supplier_name || "Chưa có" %>
-                        </td>
-
-
-                        <td class="action-cell">
-
-                            <a
-                                href="/products/<%= product.id %>"
-                                class="action-link view-link"
-                            >
-                                Xem
-                            </a>
-
-
-                            <a
-                                href="/products/<%= product.id %>/edit"
-                                class="action-link edit-link"
-                            >
-                                Sửa
-                            </a>
-
-
-                            <form
-                                action="/products/delete/<%= product.id %>"
-                                method="POST"
-                                class="inline-form"
-                                onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');"
-                            >
-
-                                <button
-                                    class="danger"
-                                    type="submit"
-                                >
-                                    Xóa
-                                </button>
-
-                            </form>
-
-                        </td>
-
-                    </tr>
-
-                <% }) %>
-
-
-            </tbody>
-
-        </table>
-
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-title-group">
+            <h2>
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                Quản lý Sản phẩm
+            </h2>
+            <p class="page-description">Quản lý toàn bộ danh mục hàng hóa, trạng thái tồn kho và đối tác cung ứng.</p>
+        </div>
     </div>
 
+    <!-- =========================================
+         THÊM SẢN PHẨM MỚI
+         ========================================= -->
+    <div class="form-card">
+        <h3 class="form-card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Thêm sản phẩm mới
+        </h3>
 
-    <!-- ========================= -->
-    <!-- PHÂN TRANG -->
-    <!-- ========================= -->
+        <form action="/products/add" method="POST" class="form-grid-inline">
+            <input
+                name="name"
+                placeholder="Tên sản phẩm *"
+                required
+            >
 
+            <input
+                name="sku"
+                placeholder="Mã SKU (duy nhất) *"
+                required
+            >
+
+            <input
+                name="price"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Giá (VNĐ) *"
+                required
+            >
+
+            <select name="supplier_id">
+                <option value="">-- Chọn Nhà cung cấp --</option>
+                <% suppliers.forEach(supplier => { %>
+                    <option value="<%= supplier.id %>">
+                        <%= supplier.name %>
+                    </option>
+                <% }) %>
+            </select>
+
+            <button type="submit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Thêm sản phẩm
+            </button>
+        </form>
+    </div>
+
+    <!-- =========================================
+         BỘ LỌC, TÌM KIẾM, SẮP XẾP
+         ========================================= -->
+    <div class="filter-toolbar-card">
+        <form
+            id="productFilterForm"
+            action="/products"
+            method="GET"
+            class="filter-form"
+        >
+            <input
+                id="productSearch"
+                name="search"
+                placeholder="🔍 Tìm theo tên hoặc mã SKU..."
+                value="<%= filters.search %>"
+                autocomplete="off"
+            >
+
+            <select
+                name="supplier"
+                class="auto-submit-filter"
+            >
+                <option value="">Tất cả nhà cung cấp</option>
+                <% suppliers.forEach(supplier => { %>
+                    <option
+                        value="<%= supplier.id %>"
+                        <%= String(filters.supplier) === String(supplier.id) ? "selected" : "" %>
+                    >
+                        <%= supplier.name %>
+                    </option>
+                <% }) %>
+            </select>
+
+            <select
+                name="stock"
+                class="auto-submit-filter"
+            >
+                <option value="">Tất cả trạng thái</option>
+                <option value="out" <%= filters.stock === "out" ? "selected" : "" %>>
+                    Hết hàng (0)
+                </option>
+                <option value="low" <%= filters.stock === "low" ? "selected" : "" %>>
+                    Sắp hết (1 - 10)
+                </option>
+                <option value="available" <%= filters.stock === "available" ? "selected" : "" %>>
+                    Còn hàng (&gt; 10)
+                </option>
+            </select>
+
+            <select
+                name="sort"
+                class="auto-submit-filter"
+            >
+                <option value="newest" <%= filters.sort === "newest" ? "selected" : "" %>>
+                    Sắp xếp: Mới nhất
+                </option>
+                <option value="name" <%= filters.sort === "name" ? "selected" : "" %>>
+                    Sắp xếp: Tên sản phẩm
+                </option>
+                <option value="price" <%= filters.sort === "price" ? "selected" : "" %>>
+                    Sắp xếp: Giá
+                </option>
+                <option value="quantity" <%= filters.sort === "quantity" ? "selected" : "" %>>
+                    Sắp xếp: Tồn kho
+                </option>
+                <option value="sku" <%= filters.sort === "sku" ? "selected" : "" %>>
+                    Sắp xếp: SKU
+                </option>
+            </select>
+
+            <select
+                name="order"
+                class="auto-submit-filter"
+            >
+                <option value="asc" <%= filters.order === "asc" ? "selected" : "" %>>
+                    Thứ tự: Tăng dần
+                </option>
+                <option value="desc" <%= filters.order === "desc" ? "selected" : "" %>>
+                    Thứ tự: Giảm dần
+                </option>
+            </select>
+
+            <a href="/products" class="reset-filter">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <polyline points="23 20 23 14 17 14"></polyline>
+                    <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                </svg>
+                Đặt lại
+            </a>
+        </form>
+    </div>
+
+    <!-- Summary Count -->
+    <div class="filter-summary-row">
+        <div>
+            Tìm thấy:
+            <span class="result-chip">
+                <strong><%= pagination.totalItems %></strong> sản phẩm
+            </span>
+        </div>
+    </div>
+
+    <!-- =========================================
+         BẢNG DANH SÁCH SẢN PHẨM
+         ========================================= -->
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 70px;">ID</th>
+                    <th style="width: 120px;">SKU</th>
+                    <th>Tên sản phẩm</th>
+                    <th style="width: 140px;">Giá</th>
+                    <th style="width: 100px; text-align: center;">Tồn kho</th>
+                    <th style="width: 130px; text-align: center;">Trạng thái</th>
+                    <th>Nhà cung cấp</th>
+                    <th style="width: 190px; text-align: center;">Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% if (products.length === 0) { %>
+                    <tr>
+                        <td colspan="8" class="empty-row">
+                            <div class="empty-row-box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                                <span>Không tìm thấy sản phẩm nào phù hợp với bộ lọc.</span>
+                            </div>
+                        </td>
+                    </tr>
+                <% } %>
+
+                <% products.forEach(product => { %>
+                    <tr>
+                        <td>
+                            <strong style="color: var(--text-muted);">#<%= product.id %></strong>
+                        </td>
+
+                        <td>
+                            <code style="background: #f1f5f9; padding: 3px 6px; border-radius: 4px; font-weight: 600; color: #334155;">
+                                <%= product.sku %>
+                            </code>
+                        </td>
+
+                        <td>
+                            <a href="/products/<%= product.id %>" style="color: var(--text-main); font-weight: 600; text-decoration: none;">
+                                <%= product.name %>
+                            </a>
+                        </td>
+
+                        <td>
+                            <span style="font-weight: 700; color: var(--primary);">
+                                <%= Number(product.price).toLocaleString("vi-VN") %>
+                            </span>
+                            <span style="font-size: 12px; color: var(--text-muted);">VNĐ</span>
+                        </td>
+
+                        <td style="text-align: center;">
+                            <span style="font-size: 15px; font-weight: 800;">
+                                <%= product.quantity %>
+                            </span>
+                        </td>
+
+                        <td style="text-align: center;">
+                            <% if (product.quantity === 0) { %>
+                                <span class="status-badge status-out">
+                                    Hết hàng
+                                </span>
+                            <% } else if (product.quantity <= 10) { %>
+                                <span class="status-badge status-low">
+                                    Sắp hết
+                                </span>
+                            <% } else { %>
+                                <span class="status-badge status-available">
+                                    Còn hàng
+                                </span>
+                            <% } %>
+                        </td>
+
+                        <td>
+                            <% if (product.supplier_name) { %>
+                                <span style="display: inline-flex; align-items: center; gap: 4px; color: var(--text-main);">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 21h18"></path>
+                                        <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+                                    </svg>
+                                    <%= product.supplier_name %>
+                                </span>
+                            <% } else { %>
+                                <span style="color: var(--text-light); font-style: italic;">Chưa có</span>
+                            <% } %>
+                        </td>
+
+                        <td>
+                            <div class="action-cell" style="justify-content: center;">
+                                <a
+                                    href="/products/<%= product.id %>"
+                                    class="action-link view-link"
+                                    title="Xem chi tiết"
+                                >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    Xem
+                                </a>
+
+                                <a
+                                    href="/products/<%= product.id %>/edit"
+                                    class="action-link edit-link"
+                                    title="Chỉnh sửa sản phẩm"
+                                >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                    Sửa
+                                </a>
+
+                                <form
+                                    action="/products/delete/<%= product.id %>"
+                                    method="POST"
+                                    class="inline-form"
+                                    onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm \'<%= product.name %>\'?');"
+                                >
+                                    <button
+                                        class="danger"
+                                        type="submit"
+                                        title="Xóa sản phẩm"
+                                    >
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        </svg>
+                                        Xóa
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- =========================================
+         PHÂN TRANG (PAGINATION)
+         ========================================= -->
     <%
         const queryBase =
             `search=${encodeURIComponent(filters.search)}`
@@ -490,59 +400,30 @@
             + `&order=${encodeURIComponent(filters.order)}`;
     %>
 
-
     <div class="pagination">
-
         <% if (pagination.page > 1) { %>
-
-            <a
-                href="/products?page=<%= pagination.page - 1 %>&<%= queryBase %>"
-            >
+            <a href="/products?page=<%= pagination.page - 1 %>&<%= queryBase %>">
                 ← Trước
             </a>
-
         <% } %>
-
 
         <span>
-
             Trang
-
-            <strong>
-                <%= pagination.page %>
-            </strong>
-
+            <strong><%= pagination.page %></strong>
             /
-
-            <strong>
-                <%= pagination.totalPages %>
-            </strong>
-
+            <strong><%= pagination.totalPages %></strong>
         </span>
 
-
-        <% if (
-            pagination.page <
-            pagination.totalPages
-        ) { %>
-
-            <a
-                href="/products?page=<%= pagination.page + 1 %>&<%= queryBase %>"
-            >
+        <% if (pagination.page < pagination.totalPages) { %>
+            <a href="/products?page=<%= pagination.page + 1 %>&<%= queryBase %>">
                 Sau →
             </a>
-
         <% } %>
-
     </div>
 
 </main>
 
-<script
-    src="/js/filters.js"
-    defer
-></script>
+<script src="/js/filters.js" defer></script>
 
 </body>
-
 </html>

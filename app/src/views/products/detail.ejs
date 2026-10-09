@@ -2,336 +2,293 @@
 <html lang="vi">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Chi tiết sản phẩm</title>
-
-    <link
-        rel="stylesheet"
-        href="/css/style.css"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết: <%= product.name %> - Hệ thống Quản lý Kho</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
-
 
 <body>
 
 <header>
+    <div class="header-container">
+        <a href="/" class="brand-section">
+            <div class="brand-logo-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+            </div>
+            <div class="brand-info">
+                <span class="brand-title">Hệ thống Quản lý Kho hàng</span>
+                <span class="brand-subtitle">Inventory Management System</span>
+            </div>
+        </a>
 
-    <h1>Chi tiết sản phẩm</h1>
-
-    <nav>
-        <a href="/">Dashboard</a>
-        <a href="/products">Sản phẩm</a>
-        <a href="/suppliers">Nhà cung cấp</a>
-        <a href="/inventory">Nhập / Xuất kho</a>
-    </nav>
-
+        <nav>
+            <a href="/">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                Dashboard
+            </a>
+            <a href="/products" class="active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                Sản phẩm
+            </a>
+            <a href="/suppliers">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 21h18"></path>
+                    <path d="M9 8h1"></path>
+                    <path d="M9 12h1"></path>
+                    <path d="M9 16h1"></path>
+                    <path d="M14 8h1"></path>
+                    <path d="M14 12h1"></path>
+                    <path d="M14 16h1"></path>
+                    <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+                </svg>
+                Nhà cung cấp
+            </a>
+            <a href="/inventory">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polyline points="17 1 21 5 17 9"></polyline>
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                    <polyline points="7 23 3 19 7 15"></polyline>
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                </svg>
+                Nhập / Xuất kho
+            </a>
+        </nav>
+    </div>
 </header>
-
 
 <main>
 
-    <h2>
-        <%= product.name %>
-    </h2>
-
-
-    <!-- ========================= -->
-    <!-- THÔNG TIN SẢN PHẨM -->
-    <!-- ========================= -->
-
-    <table class="detail-table">
-
-        <tbody>
-
-            <tr>
-
-                <th>ID</th>
-
-                <td>
-                    <%= product.id %>
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <th>SKU</th>
-
-                <td>
-                    <%= product.sku %>
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <th>Tên sản phẩm</th>
-
-                <td>
-                    <%= product.name %>
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <th>Giá</th>
-
-                <td>
-
-                    <%= Number(product.price)
-                        .toLocaleString("vi-VN") %>
-                    VNĐ
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <th>Tồn kho</th>
-
-                <td>
-
-                    <strong>
-                        <%= product.quantity %>
-                    </strong>
-
-                </td>
-
-            </tr>
-
-
-            <!-- ========================= -->
-            <!-- TRẠNG THÁI TỒN KHO -->
-            <!-- ========================= -->
-
-            <tr>
-
-                <th>Trạng thái</th>
-
-                <td>
-
-                    <% if (product.quantity === 0) { %>
-
-                        <span
-                            class="status-badge status-out"
-                        >
-                            Hết hàng
-                        </span>
-
-
-                    <% } else if (product.quantity <= 10) { %>
-
-                        <span
-                            class="status-badge status-low"
-                        >
-                            Sắp hết
-                        </span>
-
-
-                    <% } else { %>
-
-                        <span
-                            class="status-badge status-available"
-                        >
-                            Còn hàng
-                        </span>
-
-                    <% } %>
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <th>Nhà cung cấp</th>
-
-                <td>
-                    <%= product.supplier_name || "Chưa có" %>
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <th>Điện thoại NCC</th>
-
-                <td>
-                    <%= product.supplier_phone || "-" %>
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <th>Email NCC</th>
-
-                <td>
-                    <%= product.supplier_email || "-" %>
-                </td>
-
-            </tr>
-
-
-            <% if (product.created_at) { %>
-
+    <!-- Detail Card -->
+    <div class="detail-card">
+        <div class="detail-header-bar">
+            <div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                    <a href="/products" style="color: var(--primary); text-decoration: none;">Sản phẩm</a>
+                    <span>/</span>
+                    <span>Chi tiết #<%= product.id %></span>
+                </div>
+                <h2><%= product.name %></h2>
+            </div>
+
+            <div class="detail-actions" style="margin: 0;">
+                <a
+                    href="/products/<%= product.id %>/edit"
+                    class="btn btn-warning"
+                >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                    Sửa sản phẩm
+                </a>
+
+                <a
+                    href="/products"
+                    class="btn btn-secondary"
+                >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Quay lại danh sách
+                </a>
+            </div>
+        </div>
+
+        <!-- Specifications Table -->
+        <table class="detail-table">
+            <tbody>
                 <tr>
-
-                    <th>Ngày tạo</th>
-
+                    <th>Mã sản phẩm (ID)</th>
                     <td>
-                        <%= product.created_at %>
+                        <strong style="color: var(--text-muted);">#<%= product.id %></strong>
                     </td>
-
                 </tr>
 
-            <% } %>
+                <tr>
+                    <th>Mã SKU</th>
+                    <td>
+                        <code style="background: #f1f5f9; padding: 4px 8px; border-radius: 4px; font-weight: 700; color: #334155; font-size: 14px;">
+                            <%= product.sku %>
+                        </code>
+                    </td>
+                </tr>
 
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <td>
+                        <strong style="font-size: 16px;"><%= product.name %></strong>
+                    </td>
+                </tr>
 
-        </tbody>
+                <tr>
+                    <th>Giá niêm yết</th>
+                    <td>
+                        <span style="font-size: 18px; font-weight: 800; color: var(--primary);">
+                            <%= Number(product.price).toLocaleString("vi-VN") %>
+                        </span>
+                        <span style="font-size: 13px; color: var(--text-muted); font-weight: 600;">VNĐ</span>
+                    </td>
+                </tr>
 
-    </table>
+                <tr>
+                    <th>Số lượng tồn kho</th>
+                    <td>
+                        <span style="font-size: 18px; font-weight: 800;">
+                            <%= product.quantity %>
+                        </span>
+                        <span style="color: var(--text-muted); font-size: 13px;">đơn vị</span>
+                    </td>
+                </tr>
 
+                <tr>
+                    <th>Trạng thái tồn kho</th>
+                    <td>
+                        <% if (product.quantity === 0) { %>
+                            <span class="status-badge status-out">
+                                Hết hàng
+                            </span>
+                        <% } else if (product.quantity <= 10) { %>
+                            <span class="status-badge status-low">
+                                Sắp hết
+                            </span>
+                        <% } else { %>
+                            <span class="status-badge status-available">
+                                Còn hàng
+                            </span>
+                        <% } %>
+                    </td>
+                </tr>
 
-    <div class="detail-actions">
+                <tr>
+                    <th>Nhà cung cấp</th>
+                    <td>
+                        <strong><%= product.supplier_name || "Chưa gắn nhà cung cấp" %></strong>
+                    </td>
+                </tr>
 
-        <a
-            href="/products/<%= product.id %>/edit"
-            class="action-link edit-link"
-        >
-            Sửa sản phẩm
-        </a>
+                <tr>
+                    <th>Điện thoại NCC</th>
+                    <td>
+                        <%= product.supplier_phone || "-" %>
+                    </td>
+                </tr>
 
+                <tr>
+                    <th>Email NCC</th>
+                    <td>
+                        <%= product.supplier_email || "-" %>
+                    </td>
+                </tr>
 
-        <a
-            href="/products"
-            class="action-link view-link"
-        >
-            Quay lại danh sách
-        </a>
-
+                <% if (product.created_at) { %>
+                    <tr>
+                        <th>Ngày tạo bản ghi</th>
+                        <td style="color: var(--text-muted);">
+                            <%= product.created_at %>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
     </div>
 
-
-    <!-- ========================= -->
-    <!-- LỊCH SỬ GIAO DỊCH -->
-    <!-- ========================= -->
-
-    <h2>
-        Lịch sử nhập / xuất gần nhất
-    </h2>
-
+    <!-- =========================================
+         LỊCH SỬ GIAO DỊCH KHO
+         ========================================= -->
+    <h3 class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        Lịch sử giao dịch nhập / xuất gần nhất
+    </h3>
 
     <div class="table-wrapper">
-
         <table>
-
             <thead>
-
                 <tr>
-                    <th>Loại giao dịch</th>
-                    <th>Số lượng</th>
+                    <th style="width: 140px; text-align: center;">Loại giao dịch</th>
+                    <th style="width: 120px; text-align: center;">Số lượng</th>
                     <th>Ghi chú</th>
-                    <th>Thời gian</th>
+                    <th style="width: 220px;">Thời gian thực hiện</th>
                 </tr>
-
             </thead>
 
-
             <tbody>
-
-
                 <% if (transactions.length === 0) { %>
-
                     <tr>
-
-                        <td
-                            colspan="4"
-                            class="empty-row"
-                        >
-                            Chưa có giao dịch nhập/xuất.
+                        <td colspan="4" class="empty-row">
+                            <div class="empty-row-box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
+                                <span>Chưa có giao dịch nhập hoặc xuất nào cho sản phẩm này.</span>
+                            </div>
                         </td>
-
                     </tr>
-
                 <% } %>
 
-
                 <% transactions.forEach(t => { %>
-
                     <tr>
-
-                        <td>
-
-                            <% if (
-                                t.transaction_type === "IMPORT"
-                            ) { %>
-
-                                <span
-                                    class="transaction-badge transaction-import"
-                                >
+                        <td style="text-align: center;">
+                            <% if (t.transaction_type === "IMPORT") { %>
+                                <span class="transaction-badge transaction-import">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <polyline points="19 12 12 19 5 12"></polyline>
+                                    </svg>
                                     NHẬP
                                 </span>
-
-
                             <% } else { %>
-
-                                <span
-                                    class="transaction-badge transaction-export"
-                                >
+                                <span class="transaction-badge transaction-export">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <line x1="12" y1="19" x2="12" y2="5"></line>
+                                        <polyline points="5 12 12 5 19 12"></polyline>
+                                    </svg>
                                     XUẤT
                                 </span>
-
                             <% } %>
-
                         </td>
 
-
-                        <td>
-                            <%= t.quantity %>
+                        <td style="text-align: center;">
+                            <strong style="font-size: 15px;">
+                                <%= t.quantity %>
+                            </strong>
                         </td>
-
 
                         <td>
                             <%= t.note || "-" %>
                         </td>
 
-
-                        <td>
+                        <td style="color: var(--text-muted); font-size: 13px;">
                             <%= t.created_at %>
                         </td>
-
                     </tr>
-
                 <% }) %>
-
-
             </tbody>
-
         </table>
-
     </div>
 
 </main>
 
+<script src="/js/filters.js" defer></script>
 
 </body>
-
 </html>

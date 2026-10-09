@@ -2,104 +2,154 @@
 <html lang="vi">
 
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>Sửa nhà cung cấp</title>
-
-<link
-    rel="stylesheet"
-    href="/css/style.css"
->
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sửa nhà cung cấp: <%= supplier.name %> - Hệ thống Quản lý Kho</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
-
 
 <body>
 
 <header>
+    <div class="header-container">
+        <a href="/" class="brand-section">
+            <div class="brand-logo-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+            </div>
+            <div class="brand-info">
+                <span class="brand-title">Hệ thống Quản lý Kho hàng</span>
+                <span class="brand-subtitle">Inventory Management System</span>
+            </div>
+        </a>
 
-<h1>Sửa Nhà cung cấp</h1>
-
-<nav>
-
-<a href="/">Dashboard</a>
-<a href="/products">Sản phẩm</a>
-<a href="/suppliers">Nhà cung cấp</a>
-<a href="/inventory">Nhập / Xuất kho</a>
-
-</nav>
-
+        <nav>
+            <a href="/">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                Dashboard
+            </a>
+            <a href="/products">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                Sản phẩm
+            </a>
+            <a href="/suppliers" class="active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 21h18"></path>
+                    <path d="M9 8h1"></path>
+                    <path d="M9 12h1"></path>
+                    <path d="M9 16h1"></path>
+                    <path d="M14 8h1"></path>
+                    <path d="M14 12h1"></path>
+                    <path d="M14 16h1"></path>
+                    <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+                </svg>
+                Nhà cung cấp
+            </a>
+            <a href="/inventory">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polyline points="17 1 21 5 17 9"></polyline>
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                    <polyline points="7 23 3 19 7 15"></polyline>
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                </svg>
+                Nhập / Xuất kho
+            </a>
+        </nav>
+    </div>
 </header>
-
 
 <main>
 
+    <div class="edit-form-card">
+        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <a href="/suppliers" style="color: var(--primary); text-decoration: none;">Nhà cung cấp</a>
+            <span>/</span>
+            <a href="/suppliers/<%= supplier.id %>" style="color: var(--primary); text-decoration: none;">#<%= supplier.id %></a>
+            <span>/</span>
+            <span>Chỉnh sửa</span>
+        </div>
 
-<form
-    action="/suppliers/<%= supplier.id %>/edit"
-    method="POST"
->
+        <h2 style="margin: 0 0 24px 0; font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            Sửa thông tin nhà cung cấp
+        </h2>
 
+        <form
+            action="/suppliers/<%= supplier.id %>/edit"
+            method="POST"
+            style="flex-direction: column;"
+        >
+            <div class="form-group">
+                <label for="supplierName">Tên nhà cung cấp *</label>
+                <input
+                    id="supplierName"
+                    name="name"
+                    value="<%= supplier.name %>"
+                    required
+                >
+            </div>
 
-<label>Tên nhà cung cấp</label>
+            <div class="form-group">
+                <label for="supplierPhone">Số điện thoại</label>
+                <input
+                    id="supplierPhone"
+                    name="phone"
+                    value="<%= supplier.phone || '' %>"
+                >
+            </div>
 
-<input
-    name="name"
-    value="<%= supplier.name %>"
-    required
->
+            <div class="form-group">
+                <label for="supplierEmail">Email liên hệ</label>
+                <input
+                    id="supplierEmail"
+                    name="email"
+                    type="email"
+                    value="<%= supplier.email || '' %>"
+                >
+            </div>
 
+            <div class="form-group">
+                <label for="supplierAddress">Địa chỉ trụ sở / kho</label>
+                <input
+                    id="supplierAddress"
+                    name="address"
+                    value="<%= supplier.address || '' %>"
+                >
+            </div>
 
-<label>Số điện thoại</label>
+            <div class="form-action-buttons">
+                <button type="submit" class="btn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Lưu thay đổi
+                </button>
 
-<input
-    name="phone"
-    value="<%= supplier.phone || '' %>"
->
-
-
-<label>Email</label>
-
-<input
-    name="email"
-    type="email"
-    value="<%= supplier.email || '' %>"
->
-
-
-<label>Địa chỉ</label>
-
-<input
-    name="address"
-    value="<%= supplier.address || '' %>"
->
-
-
-<button type="submit">
-
-Lưu thay đổi
-
-</button>
-
-
-<a href="/suppliers/<%= supplier.id %>">
-
-Hủy
-
-</a>
-
-
-</form>
-
+                <a href="/suppliers/<%= supplier.id %>" class="btn btn-secondary">
+                    Hủy
+                </a>
+            </div>
+        </form>
+    </div>
 
 </main>
 
-</body>
+<script src="/js/filters.js" defer></script>
 
+</body>
 </html>
